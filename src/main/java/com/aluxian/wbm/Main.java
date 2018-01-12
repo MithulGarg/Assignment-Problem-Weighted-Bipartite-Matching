@@ -1,21 +1,28 @@
 package com.aluxian.wbm;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String json = Files.lines(Paths.get("input.json")).collect(Collectors.joining());
-        Type type = new TypeToken<Map<String, Map<String, Double>>>() {}.getType();
-        Result result = new Main().apply(new Gson().fromJson(json, type));
-        System.out.println(new Gson().toJson(result));
+        double[][] matrix = new double[][] {
+                {1, 3, 999, 1},
+                {1, 3, 999, 1},
+                {3, 3, 3, 999},
+                {4, 1, 2, 4},
+                {2, 2, 4, 2},
+                {999, 4, 1, 3}
+        };
+        HungarianAlgorithm alg = new HungarianAlgorithm(matrix);
+
+        for (int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j <matrix[0].length; j ++) {
+                matrix[i][j] = Math.pow(matrix[i][j], 2);
+            }
+        }
+        alg = new HungarianAlgorithm(matrix);
+        System.out.println("Results: " + Arrays.toString(alg.execute()));
+
     }
 
     public Result apply(Map<String, Map<String, Double>> input) throws Exception {
